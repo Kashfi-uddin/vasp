@@ -1,0 +1,15 @@
+NCORE = 4
+NPAR = 4 
+ISTART = 1                            # Read existing wavefunction, if there, other wise ISTART = 0
+ISMEAR = 0                            # Gaussian smearing, Semiconductors or insulators use 0,   metals : 1)
+SIGMA = 0.05                          # Smearing value in 0.03-0.05 eV semiconductors or insulators, metals:0.2)                        
+ICHARG = 2                            # Default: ICHARG	= 2
+IBRION = 2                            # for Ionic relaxation (conjugate gradient algorithm)
+ISIF = 2                              # Moves ionic positions, if ISIF = 3 moves cell volume and cell shape          
+NSW = 100                             # NSW sets the maximum number of ionic steps.
+NELM = 300                            # NELM sets the maximum number of electronic self-consistency steps
+ISPIN = 1                             # ISPIN = 1 Non-Spin polarised DFT, 2-Spin polarised Calculations
+EDIFF = 2E-06                         # SCF energy convergence, in eV
+EDIFFG = 0.05                        # Ionic convergence, eV/AA
+ENCUT = 520.0                         # you can find it from POTCAR : ENMAX  =  400.000  (Carbon atom in POTCAR)         
+GGA = PE                              # Perdew-Burke-Ernzerhof (PBE)
