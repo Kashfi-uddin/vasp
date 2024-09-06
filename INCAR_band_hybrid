@@ -1,7 +1,7 @@
 # INCAR for the band calculation
 Global Parameters
 ISTART =  1            (Read existing wavefunction, if there)
-ICHARG =  2         (Non-self-consistent: GGA/LDA band structures)
+ICHARG =  11         (Non-self-consistent: GGA/LDA band structures)
 LREAL  = Auto       (Projection operators: automatic)
 ENCUT  =  400        (Cut-off energy for plane wave basis set, in eV)
 # PREC   =  Accurate   (Precision level: Normal or Accurate)
