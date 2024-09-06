@@ -12,7 +12,7 @@ SIGMA = 0.1          # Smearing parameter
 IBRION = -1          # No relaxation during the SCF calculation
 ISIF = 2             # Optimize cell shape while keeping volume constant
 NSW = 0              # No ionic steps during the SCF calculation
-ICHARG = 2           # Read wavefunctions from WAVECAR
+#ICHARG = 11           # Read wavefunctions from WAVECAR
 LORBIT = 11          # Write orbital projections to WAVECAR
 ISYM = 0             # No symmetry-related analysis
 
