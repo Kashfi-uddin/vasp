@@ -1,0 +1,11 @@
+# INCAR file for optical properties analysis
+
+SYSTEM = Your Material
+PREC = Accurate
+ENCUT = 400  # Set your appropriate energy cutoff
+IBRION = 8   # Phonon frequencies and eigenvectors
+ISMEAR = 1  # Tetrahedron method with Bloechl corrections for DOS
+SIGMA = 0.05  # Smearing parameter (adjust as needed)
+LOPTICS = .TRUE.  # Optics related calculations
+EDIFF  =  1E-06
+ISPIN = 2
