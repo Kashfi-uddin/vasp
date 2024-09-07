@@ -1,3 +1,5 @@
+NCORE=4
+NPAR=9
 # INCAR for the bands calcultion
 Global Parameters
 ISTART =  1            (Read existing wavefunction, if there)
