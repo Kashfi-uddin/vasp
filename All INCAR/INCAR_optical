@@ -1,3 +1,5 @@
+NCORE=4
+NPAR=9
 # INCAR file for optical properties analysis
 
 SYSTEM = Your Material
