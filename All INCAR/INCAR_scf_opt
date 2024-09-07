@@ -1,4 +1,6 @@
-NCAR for the scf calcultion
+NCORE=4
+NPAR=9
+INCAR for the scf calcultion
 Global Parameters
 ISTART =  0            (Read existing wavefunction, if there)
 # ICHARG =  11         (Non-self-consistent: GGA/LDA band structures)
