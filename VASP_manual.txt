@@ -1,0 +1,105 @@
+﻿Advanced Computational Materials Research Laboratory
+Chittagong University of Engineering and Technology
+VASP MANUAL
+
+
+Step 1:Determination of cut-off energy(ENCUT) and kpoints
+
+Cut-off Energy trial should begin from ENMAX in POTCAR with a fixed kpoints
+    • After getting enough data of Cut-off energy vs final total free energy(E0), we have to find a saturated point from the curve and fix the final cut-off energy for our further calculation.
+→ Final total free energy(E0) can be get from OSZICAR / type vasp.out
+    • After that we have to follow the same path to get the suitable kpoints where trial should be done with the final cut-off energy with respect to different kpoints.
+
+
+
+Step 2: Relaxation/Geometry Optimization of the Structure
+
+Input files: INCAR,POSCAR,POTCAR,KPOINTS
+    • Create POSCAR from .cif or get from available database(Materials Project)
+→ Standardize it by vaspkit (603) and rename it as POSCAR
+602--> Find Primitive Cell
+603--> Find Standard Conventional Cell
+    • Create POTCAR : 
+→ cat ~/vasp/potpaw_PBE.64/H/POTCAR > POTCAR
+→ cat ~/vasp/potpaw_PBE.64/O/POTCAR >> POTCAR
+→ check that all the potentials are set sequentially wrt POSCAR: CTRL+F ( End of Dataset)
+    • Create KPOINTS (102) and set the suitable kpoints got from the trial to get more accuracy.
+    • Create INCAR (available in the folder)
+→ INCAR parameters should be same always for the structure to any calculation
+    • Run
+→ for run: mpirun -np 36 vasp_std
+→ for non-collinear spin mode: mpirun -np 36 vasp_ncl
+
+
+
+
+Step 3: SCF optimization
+
+Input files: INCAR,POTCAR,KPOINTS,CONTCAR from geometry optimization
+    • copy the required input files from geo_opt folder
+→ cp INCAR POTCAR KPOINTS CONTCAR ~/vasp/…../scf
+(CONTCAR is the relaxed structure file)	
+    • rename CONTCAR as POSCAR 
+→ mv CONTCAR POSCAR
+    • Run
+Step 4: Determination of the BAND structure and DOS
+
+Input files: INCAR,POTCAR,POSCAR,CHGCAR,WAVECAR from scf optimization
+    • copy the required input files from scf_opt folder
+→ cp INCAR POSCAR POTCAR CHGCAR WAVECAR ~/vasp/…../band
+    • create KPATH.in(303) and rename it as KPOINTS
+→ mv KPATH.in KPOINTS
+    • RUN 
+    • Get the band structure data (211)
+    • Get the dos data (111)
+
+For hybrid calculation: 
+    • Do hybrid scf_opt
+→ same as mentioned earlier just with hybrid INCAR(available in the folder) 
+    • Create KPATH.in (303)
+    • Generate KPONTS(251)
+    •  RUN
+    • Get the band structure data (252)
+    • Get the dos data (111)
+  
+
+                 
+Step 5: Determination of the mechanical properties
+
+Input files: INCAR,POSCAR,POTCAR,KPOINTS(accuracy should be good enough: 0.01) 
+    • Prepare VPKIT.in file and set the value of first line to 1  
+1                    ! 1 for pre-processing; 2 for post-processing
+3D                   ! 2D for two-dimentional, 3D for bulk
+7                    ! number of strain case
+-0.015 -0.010 -0.005 0.000 0.005 0.010 0.015  ! Strain range
+    • After that to get 
+→ Elastic-Constants Using Stress-Strain Method (200) [faster and preferable]
+→ Elastic-Constants Using Energy-Strain Method (201)
+    • Do batch Run all the elastic constants created in a folder
+    • Modify the value of the first line in VPKIT.in file to 2 
+    • Get all the mechanical data (200/201)
+
+
+
+
+
+Step 6: Determination of the optical properties
+
+Input files: INCAR,POTCAR,POSCAR,KPOINTS,CHGCAR,WAVECAR from scf optimization
+    • copy the required input files from scf_opt folder
+→ cp INCAR POSCAR POTCAR CHGCAR WAVECAR KPOINTS ~/vasp/…../optical
+    • RUN
+    • Get the optical properties data (71)
+ 
+
+Thank You
+
+To Be Continued after further research ……………
+The updated manual and INCAR files can be found from the following link:
+https://github.com/Kashfi-uddin/vasp
+
+Presented by: 
+Kashfi Uddin
+Email ID: kumse2001@gmail.com
+LinkedIn: https://www.linkedin.com/in/kashfi-uddin-a147571a7/
+
