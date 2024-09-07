@@ -1,0 +1,25 @@
+#!/bin/bash
+
+################################### Energy Extraction ################################
+
+# Directory where the script is running
+RUN_DIR=$(pwd)
+
+# File to store the total energies.
+echo "ENCUT    Total Energy (eV)" > "$RUN_DIR/total_energies.txt"
+
+# Loop through the ENCUT directories.
+for ENCUT_DIR in "$RUN_DIR"/ENCUT_*; do
+  if [ -d "$ENCUT_DIR" ] && [ -f "$ENCUT_DIR/OUTCAR" ]; then
+    ENCUT_VALUE=$(basename "$ENCUT_DIR" | sed 's/ENCUT_//')
+    ENERGY=$(grep "free  energy   TOTEN" "$ENCUT_DIR/OUTCAR" | tail -1 | awk '{print $5}')
+    echo "$ENCUT_VALUE    $ENERGY" >> "$RUN_DIR/total_energies.txt"
+  fi
+done
+
+EOF
+
+echo "Total energy extraction job will be followed once all the runs are completed"
+
+# Command line execution
+# chmod +x ecut_conv_test.sh && sed -i 's/\r$//' ecut_conv_test.sh && ./ecut_conv_test.sh
