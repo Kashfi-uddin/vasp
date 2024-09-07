@@ -6,20 +6,45 @@
 RUN_DIR=$(pwd)
 
 # File to store the total energies.
-echo "ENCUT    Total Energy (eV)" > "$RUN_DIR/total_energies.txt"
+ENERGY_FILE="$RUN_DIR/total_energies.txt"
+echo "ENCUT    Total Energy (eV)" > "$ENERGY_FILE"
 
 # Loop through the ENCUT directories.
 for ENCUT_DIR in "$RUN_DIR"/ENCUT_*; do
   if [ -d "$ENCUT_DIR" ] && [ -f "$ENCUT_DIR/OUTCAR" ]; then
     ENCUT_VALUE=$(basename "$ENCUT_DIR" | sed 's/ENCUT_//')
     ENERGY=$(grep "free  energy   TOTEN" "$ENCUT_DIR/OUTCAR" | tail -1 | awk '{print $5}')
-    echo "$ENCUT_VALUE    $ENERGY" >> "$RUN_DIR/total_energies.txt"
+    echo "$ENCUT_VALUE    $ENERGY" >> "$ENERGY_FILE"
   fi
 done
 
+################################### Plotting with Python ################################
+
+# Use Python to generate the plot
+python3 << EOF
+import matplotlib.pyplot as plt
+
+# Read the energy data from the file
+encut_values = []
+energies = []
+with open("$ENERGY_FILE", "r") as f:
+    next(f)  # Skip the header
+    for line in f:
+        encut, energy = line.split()
+        encut_values.append(int(encut))
+        energies.append(float(energy))
+
+# Plot ENCUT vs Total Energy
+plt.figure(figsize=(8, 6))
+plt.plot(encut_values, energies, marker='o', linestyle='-', color='b')
+plt.xlabel('ENCUT (eV)')
+plt.ylabel('Total Energy (eV)')
+plt.title('ENCUT vs Total Energy')
+plt.grid(True)
+
+# Save the plot as a PNG file
+plt.savefig("$RUN_DIR/encut_vs_energy.png")
+plt.show()
 EOF
 
-echo "Total energy extraction job will be followed once all the runs are completed"
-
-# Command line execution
-# chmod +x ecut_conv_test.sh && sed -i 's/\r$//' ecut_conv_test.sh && ./ecut_conv_test.sh
+echo "Total energy extraction and plot generation completed"
