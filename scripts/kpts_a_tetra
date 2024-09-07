@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Define the range of k-points to test. 
+# For example, K_x = K_y, but K_z can be chosen differently for the tetragonal structure.
+K_START_XY=3   # Start value for the x and y directions (a=b)
+K_END_XY=15    # End value for the x and y directions (a=b)
+K_INCREMENT_XY=2  # Increment for the x and y directions
+
+K_START_Z=2    # Start value for the z direction (c-axis)
+K_END_Z=10     # End value for the z direction (c-axis)
+K_INCREMENT_Z=2 # Increment for the z direction
+
+############################### Create KPOINTS directories #######################################
+
+# Loop over the specified range of k-point values for x and y (a and b), and z (c).
+for (( K_XY=$K_START_XY; K_XY<=$K_END_XY; K_XY+=$K_INCREMENT_XY ))
+do
+   for (( K_Z=$K_START_Z; K_Z<=$K_END_Z; K_Z+=$K_INCREMENT_Z ))
+   do
+      # Create a directory for the current k-point grid.
+      mkdir KPOINTS_${K_XY}x${K_XY}x${K_Z}
+      cd KPOINTS_${K_XY}x${K_XY}x${K_Z}
+
+      # Copy VASP input files from the parent directory.
+      cp ../INCAR .
+      cp ../POSCAR .
+      cp ../POTCAR .
+
+      # Create the KPOINTS file for the current k-point grid.
+      echo "Automatic mesh" > KPOINTS
+      echo "0" >> KPOINTS
+      echo "Gamma" >> KPOINTS
+      echo "$K_XY $K_XY $K_Z" >> KPOINTS
+      echo "0 0 0" >> KPOINTS
+
+      # Submit VASP job (using mpirun for parallel execution).
+      mpirun -np 36 vasp_std > vasp_output_${K_XY}x${K_XY}x${K_Z}.log
+
+      # Go back to the parent directory.
+      cd ..
+   done
+done
+
+echo "K-point grid test for tetragonal structure submission completed"
