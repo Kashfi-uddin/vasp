@@ -1,3 +1,5 @@
+NCORE=4
+NPAR=9
 # INCAR for the lattice mechanical
 Global Parameters
 ISTART =  0            (Read existing wavefunction, if there)
