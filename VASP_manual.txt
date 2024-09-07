@@ -9,6 +9,7 @@ Cut-off Energy trial should begin from ENMAX in POTCAR with a fixed kpoints
     • After getting enough data of Cut-off energy vs final total free energy(E0), we have to find a saturated point from the curve and fix the final cut-off energy for our further calculation.
 → Final total free energy(E0) can be get from OSZICAR / type vasp.out
     • After that we have to follow the same path to get the suitable kpoints where trial should be done with the final cut-off energy with respect to different kpoints.
+(mkdir trial --> cd trial --> mkdir ecut kpts --> cd ecut/kpts --> input files --> execute scripts)
 
 
 
