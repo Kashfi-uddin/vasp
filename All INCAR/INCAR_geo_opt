@@ -1,0 +1,22 @@
+NCAR for the lattice relaxation
+Global Parameters
+ISTART =  0            (Read existing wavefunction, if there)
+# ICHARG =  11         (Non-self-consistent: GGA/LDA band structures)
+LREAL  = Auto       (Projection operators: automatic)
+ENCUT  =  400        (Cut-off energy for plane wave basis set, in eV)
+# PREC   =  Accurate   (Precision level: Normal or Accurate)
+LWAVE  = .FALSE.        (Write WAVECAR or not)
+LCHARG = .FALSE.        (Write CHGCAR or not)
+ADDGRID = .TRUE.
+
+Electronic Relaxation
+ISMEAR =  0            (Gaussian smearing, metals:1)
+SIGMA  =  0.05         (Smearing value in eV, metals:0.2)
+NELM   =  100          (Max electronic SCF steps)
+EDIFF  =  1E-06        (SCF energy convergence, in eV)
+ 
+Ionic Relaxation
+NSW    =  100          (Max ionic steps)
+IBRION =  2            (Algorithm: 0-MD, 1-Quasi-New, 2-CG)
+ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)
+EDIFFG = -2E-02        (Ionic convergence, eV/AA)

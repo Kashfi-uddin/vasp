@@ -1,0 +1,23 @@
+# INCAR for the band calculation
+Global Parameters
+ISTART =  1            (Read existing wavefunction, if there)
+ICHARG =  11         (Non-self-consistent: GGA/LDA band structures)
+LREAL  = Auto       (Projection operators: automatic)
+ENCUT  =  400        (Cut-off energy for plane wave basis set, in eV)
+# PREC   =  Accurate   (Precision level: Normal or Accurate)
+LWAVE  = .TRUE.        (Write WAVECAR or not)
+LCHARG = .TRUE.        (Write CHGCAR or not)
+
+Electronic Relaxation
+ISMEAR =  0            (Gaussian smearing, metals:1)
+#SIGMA  =  0.01         (Smearing value in eV, metals:0.2)
+NELM   =  90           (Max electronic SCF steps)
+EDIFF  =  1E-07        (SCF energy convergence, in eV)
+ 
+# Hybrid Functional (HSE06)
+GGA = PS
+LHFCALC = .TRUE.
+HFSCREEN = 0.2
+
+LORBIT  = 10
+NEDOS = 2001
