@@ -1,3 +1,5 @@
+NCORE=4
+NPAR=9
 # INCAR file for HSE06 SCF calculation in VASP
 
 # General parameters
