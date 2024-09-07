@@ -8,3 +8,4 @@ ISMEAR = 0                  # Gaussian smearing, good for insulators/semiconduct
 SIGMA = 0.05                # Width of smearing in eV
 
 EDIFF = 1E-7               # Energy convergence criterion
+LREAL=.FALSE.
