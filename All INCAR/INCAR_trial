@@ -1,3 +1,5 @@
+NCORE=4
+NPAR=9
 SYSTEM = GaN  # Descriptive name of the system
 ISTART = 0                 # Job is started from scratch
 ICHARG = 2                 # Initial electron density from atomic charges
