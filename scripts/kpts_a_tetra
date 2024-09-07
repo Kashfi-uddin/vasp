@@ -1,44 +1,57 @@
 #!/bin/bash
 
-# Define the range of k-points to test. 
-# For example, K_x = K_y, but K_z can be chosen differently for the tetragonal structure.
-K_START_XY=3   # Start value for the x and y directions (a=b)
-K_END_XY=15    # End value for the x and y directions (a=b)
-K_INCREMENT_XY=2  # Increment for the x and y directions
+################################### Parameter Setting ################################
 
-K_START_Z=2    # Start value for the z direction (c-axis)
-K_END_Z=10     # End value for the z direction (c-axis)
-K_INCREMENT_Z=2 # Increment for the z direction
+echo "KPOINTS convergence test submission initiated"
 
-############################### Create KPOINTS directories #######################################
+# Initialize a variable to hold all job IDs.
+job_ids=()
 
-# Loop over the specified range of k-point values for x and y (a and b), and z (c).
-for (( K_XY=$K_START_XY; K_XY<=$K_END_XY; K_XY+=$K_INCREMENT_XY ))
+# Define the range of KPOINTS values to test (odd numbers typically used).
+K_START=4
+K_END=8
+K_INCREMENT=2
+
+# Number of processors to use with mpirun
+NP=36
+
+################################### Create directories and run VASP ################################
+
+# Loop over the specified range of KPOINTS values.
+for (( K=$K_START; K<=$K_END; K+=$K_INCREMENT ))
 do
-   for (( K_Z=$K_START_Z; K_Z<=$K_END_Z; K_Z+=$K_INCREMENT_Z ))
-   do
-      # Create a directory for the current k-point grid.
-      mkdir KPOINTS_${K_XY}x${K_XY}x${K_Z}
-      cd KPOINTS_${K_XY}x${K_XY}x${K_Z}
+    # Define the `Z` dimension for a tetragonal lattice.
+    Z_DIM=$(( K - 2 ))  # Adjust this as needed for your specific case.
 
-      # Copy VASP input files from the parent directory.
-      cp ../INCAR .
-      cp ../POSCAR .
-      cp ../POTCAR .
+    # Create a directory for the current KPOINTS value.
+    mkdir KPOINTS_${K}x${K}x${Z_DIM}
+    cd KPOINTS_${K}x${K}x${Z_DIM}
 
-      # Create the KPOINTS file for the current k-point grid.
-      echo "Automatic mesh" > KPOINTS
-      echo "0" >> KPOINTS
-      echo "Gamma" >> KPOINTS
-      echo "$K_XY $K_XY $K_Z" >> KPOINTS
-      echo "0 0 0" >> KPOINTS
+    # Copy VASP input files from the parent directory.
+    cp ../INCAR .
+    cp ../POSCAR .
+    cp ../POTCAR .
 
-      # Submit VASP job (using mpirun for parallel execution).
-      mpirun -np 36 vasp_std > vasp_output_${K_XY}x${K_XY}x${K_Z}.log
+    # Create the KPOINTS file with the current K-mesh for tetragonal structure.
+    echo "Automatic mesh" > KPOINTS
+    echo "0" >> KPOINTS
+    echo "Gamma" >> KPOINTS
+    echo "$K $K $Z_DIM" >> KPOINTS
+    echo "0 0 0" >> KPOINTS
 
-      # Go back to the parent directory.
-      cd ..
-   done
+    # Run VASP using mpirun.
+    echo "Running VASP in directory: $PWD with KPOINTS ${K} x ${K} x ${Z_DIM}"
+    mpirun -np $NP vasp_std
+
+    # Return to the parent directory.
+    cd ..
+
+    # Optionally, store the job ID if using a job scheduler.
+    # job_id=$(sbatch job_script.sh | awk '{print $4}')
+    # job_ids+=($job_id)
 done
 
-echo "K-point grid test for tetragonal structure submission completed"
+echo "KPOINTS convergence test submission completed"
+
+# Optionally, you can print all job IDs or perform further operations.
+# echo "Submitted jobs: ${job_ids[@]}"
