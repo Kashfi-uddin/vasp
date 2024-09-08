@@ -16,6 +16,38 @@ for dir in ${calc_dir}/KPOINTS_*; do
   fi
 done
 
+# Create a Python script to plot K-points vs Total Energy
+python3 - <<EOF
+import matplotlib.pyplot as plt
 
-#command line execution
-#chmod +x k_conv_test_1b.sh && sed -i 's/\r$//' k_conv_test_1b.sh && ./k_conv_test_1b.sh
+# Read the data manually since K-Points are not floats
+kpoints = []
+energies = []
+
+# Load data from total_energies.txt
+with open("${output_file}", "r") as file:
+    next(file)  # Skip the header line
+    for line in file:
+        kpoint, energy = line.split()
+        kpoints.append(kpoint)
+        energies.append(float(energy))
+
+# Plot the K-Points vs Total Energy
+plt.figure(figsize=(8, 6))
+plt.plot(kpoints, energies, marker='o', linestyle='-', color='b', label='Total Energy')
+plt.title('K-Points vs Total Energy')
+plt.xlabel('K-Points')
+plt.ylabel('Total Energy (eV)')
+plt.grid(True)
+plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+plt.tight_layout()  # Adjust layout to prevent label cut-off
+plt.legend()
+
+# Save the plot as an image file (PNG)
+plt.savefig("${calc_dir}/kpoints_vs_total_energy.png")
+
+# Optionally, show the plot
+# plt.show()
+EOF
+
+echo "K-Points vs Total Energy plot saved as kpoints_vs_total_energy.png"
