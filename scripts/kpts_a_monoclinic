@@ -1,0 +1,73 @@
+#!/bin/bash
+
+################################### Parameter Setting ################################
+
+echo "KPOINTS convergence test submission initiated"
+
+# Initialize a variable to hold all job IDs.
+job_ids=()
+
+# Define the K-Spacing value for each direction in the Monkhorst-Pack mesh (adjust as needed).
+K_SPACING_X=0.015   # K-spacing along the a-axis (X direction)
+K_SPACING_Y=0.010   # K-spacing along the b-axis (Y direction)
+K_SPACING_Z=0.012   # K-spacing along the c-axis (Z direction)
+
+# Number of processors to use with mpirun
+NP=36
+
+# Define the range of K-mesh values (you can adjust these ranges).
+K_START_X=3
+K_END_X=7
+K_INCREMENT_X=2
+
+K_START_Y=3
+K_END_Y=7
+K_INCREMENT_Y=2
+
+K_START_Z=2
+K_END_Z=6
+K_INCREMENT_Z=2
+
+################################### Create directories and run VASP ################################
+
+# Loop over the specified range of KPOINTS values for the monoclinic structure.
+for (( KX=$K_START_X; KX<=$K_END_X; KX+=$K_INCREMENT_X ))
+do
+    for (( KY=$K_START_Y; KY<=$K_END_Y; KY+=$K_INCREMENT_Y ))
+    do
+        for (( KZ=$K_START_Z; KZ<=$K_END_Z; KZ+=$K_INCREMENT_Z ))
+        do
+            # Create a directory for the current KPOINTS mesh.
+            mkdir KPOINTS_${KX}x${KY}x${KZ}
+            cd KPOINTS_${KX}x${KY}x${KZ}
+
+            # Copy VASP input files from the parent directory.
+            cp ../INCAR .
+            cp ../POSCAR .
+            cp ../POTCAR .
+
+            # Create the KPOINTS file with the K-Spacing values and mesh size.
+            echo "K-Spacing Values to Generate K-Mesh: X=${K_SPACING_X}, Y=${K_SPACING_Y}, Z=${K_SPACING_Z}" > KPOINTS
+            echo "0" >> KPOINTS
+            echo "Monkhorst-Pack" >> KPOINTS
+            echo "$KX $KY $KZ" >> KPOINTS
+            echo "0.0 0.0 0.0" >> KPOINTS
+
+            # Run VASP using mpirun.
+            echo "Running VASP in directory: $PWD with KPOINTS ${KX} x ${KY} x ${KZ}"
+            mpirun -np $NP vasp_std
+
+            # Return to the parent directory.
+            cd ..
+
+            # Optionally, store the job ID if using a job scheduler.
+            # job_id=$(sbatch job_script.sh | awk '{print $4}')
+            # job_ids+=($job_id)
+        done
+    done
+done
+
+echo "KPOINTS convergence test submission completed"
+
+# Optionally, you can print all job IDs or perform further operations.
+# echo "Submitted jobs: ${job_ids[@]}"
