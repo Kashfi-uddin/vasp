@@ -91,6 +91,64 @@ Input files: INCAR,POTCAR,POSCAR,KPOINTS,CHGCAR,WAVECAR from scf optimization
 → cp INCAR POSCAR POTCAR CHGCAR WAVECAR KPOINTS ~/vasp/…../optical
     • RUN
     • Get the optical properties data (71)
+
+
+1. Create INCAR POSCAR KPOINT POTCAR
+2. mv POSCAR POSCAR-unitcell
+3. phonopy -d --dim="2 2 2" -c POSCAR-unitcell (warning : Don't use more than dim 2 2 2 our pc can't handle)
+4. mv SPOSCAR POSCAR
+5. mpirun -np 16 vasp_std
+6. phonopy --fc vasprun.xml
+7. gedit band.conf
+   
+   # Phonon band structure configuration
+   DIM = 2 2 2
+
+  # Define the primitive axis in fractional coordinates
+  PRIMITIVE_AXIS = 1.0 0.0 0.0  0.0 1.0 0.0  0.0 0.0 1.0
+
+  # High symmetry points in the Brillouin zone 
+  # This path covers G-X-M-G-R
+  BAND = 0.0 0.0 0.0  0.5 0.0 0.0  0.5 0.5 0.0  0.0 0.0 0.0  0.5 0.5 0.5
+
+  # Read pre-calculated force constants
+  FORCE_CONSTANTS = READ
+
+8. phonopy --dim="2 2 2" -c POSCAR-unitcell band.conf
+9. phonopy-bandplot band.yaml (for data phonopy-bandplot --gnuplot band.yaml)
+
+For DOS and Specific Heat
+1. gedit mesh.conf
+   
+   # Optimized mesh configuration for phonon DOS and thermal properties of 
+   DIM = 2 2 2        # Slightly larger supercell to improve accuracy
+   MP = 16 16 16      # Finer Monkhorst-Pack grid for better q-point sampling
+   FORCE_CONSTANTS = READ  # Use pre-calculated force constants from FORCE_SETS
+
+2. phonopy --dim="2 2 2" -c POSCAR-unitcell -p mesh.conf
+3. phonopy --dim="2 2 2" -c POSCAR-unitcell -t -p mesh.conf
+
+For PDOS
+1. gedit pdos.conf
+
+   # Optimized mesh configuration for PDOS calculation of Cs₃ISe
+   DIM = 2 2 2        # Supercell dimensions
+   MP = 16 16 16      # Monkhorst-Pack grid for sampling q-points
+
+   # PDOS calculation: Define groups of atoms to project onto
+   # Example: Project onto atom 1, atoms 2 and 3, atoms 4, and all four atoms together
+   PDOS = 1, 2 3, 4, 1 2 3 4
+   FORCE_CONSTANTS = READ  # Use pre-calculated force constants
+
+2. phonopy --dim="2 2 2" -c POSCAR-unitcell -p pdos.conf
+
+other bandplot option
+・phonopy-bandplot -h
+・phonopy-bandplot --xlabel="" --ylabel="Frequency (THz)" --title="Fe2VAl" --fmin=0 --fmax=12
+・phonopy-bandplot --gnuplot
+・phonopy-bandplot --xlabel="" --ylabel="Frequency (THz)" --title="Fe2VAl" --fmin=0 --fmax=12 --dos=total_dos.dat
+・phonopy-bandplot --xlabel="" --ylabel="Frequency (THz)" --title="Fe2VAl" --fmin=0 --fmax=12 --dos=projected_dos.dat
+
  
 
 Thank You
