@@ -92,7 +92,7 @@ Input files: INCAR,POTCAR,POSCAR,KPOINTS,CHGCAR,WAVECAR from scf optimization
     • RUN
     • Get the optical properties data (71)
 
-
+Step 7: Determination of phonon calculation
 1. Create INCAR POSCAR KPOINT POTCAR
 2. mv POSCAR POSCAR-unitcell
 3. phonopy -d --dim="2 2 2" -c POSCAR-unitcell (warning : Don't use more than dim 2 2 2 our pc can't handle)
