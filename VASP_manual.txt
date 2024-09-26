@@ -2,7 +2,7 @@
 Chittagong University of Engineering and Technology
 VASP MANUAL
 
-
+I HOPE YOU KNOW WHAT YOU ARE DOING!
 Step 1:Determination of cut-off energy(ENCUT) and kpoints
 
 Cut-off Energy trial should begin from ENMAX in POTCAR with a fixed kpoints
