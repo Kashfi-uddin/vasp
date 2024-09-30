@@ -1,0 +1,10 @@
+ISIF:
+
+For Full Geometry Optimization (relax both ions and cell shape): CONTCAR =! POSCAR
+ISIF = 3: This relaxes the atomic positions, cell shape, and volume, and calculates the stress tensor.
+
+For Relaxing Only Atomic Positions (keeping cell shape and volume fixed):
+ISIF = 2: This relaxes the atomic positions while keeping the cell shape and volume fixed. It also calculates the stress tensor.
+
+For Electronic Structure Calculations Only (no relaxation):
+ISIF = 0: This is used for static SCF calculations where no relaxation is performed.
