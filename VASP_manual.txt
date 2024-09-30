@@ -3,6 +3,8 @@ Chittagong University of Engineering and Technology
 VASP MANUAL
 
 I HOPE YOU KNOW WHAT YOU ARE DOING!
+
+
 Step 1:Determination of cut-off energy(ENCUT) and kpoints
 
 Cut-off Energy trial should begin from ENMAX in POTCAR with a fixed kpoints
@@ -43,6 +45,10 @@ Input files: INCAR,POTCAR,KPOINTS,CONTCAR from geometry optimization
     • rename CONTCAR as POSCAR 
 → mv CONTCAR POSCAR
     • Run
+
+
+
+
 Step 4: Determination of the BAND structure and DOS
 
 Input files: INCAR,POTCAR,POSCAR,CHGCAR,WAVECAR from scf optimization
@@ -63,6 +69,7 @@ For hybrid calculation:
     • Get the band structure data (252)
     • Get the dos data (111)
   
+
 
                  
 Step 5: Determination of the mechanical properties
