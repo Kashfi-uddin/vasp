@@ -13,5 +13,5 @@ LCHARG = .TRUE.        (Write CHGCAR or not)
 Electronic Relaxation
 ISMEAR =  0            (Gaussian smearing, metals:1)
 SIGMA  =  0.05         (Smearing value in eV, metals:0.2)
-NELM   =  90           (Max electronic SCF steps)
+NELM   =  100           (Max electronic SCF steps)
 EDIFF  =  1E-06        (SCF energy convergence, in eV)
