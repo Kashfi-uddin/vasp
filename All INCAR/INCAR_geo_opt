@@ -20,5 +20,5 @@ EDIFF  =  1E-06        (SCF energy convergence, in eV)
 Ionic Relaxation
 NSW    =  100          (Max ionic steps)
 IBRION =  2            (Algorithm: 0-MD, 1-Quasi-New, 2-CG)
-ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)
+ISIF   =  3            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)
 EDIFFG = -2E-02        (Ionic convergence, eV/AA)
