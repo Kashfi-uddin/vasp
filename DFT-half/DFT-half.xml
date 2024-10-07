@@ -1,0 +1,53 @@
+<WaNoTemplate>
+
+   <WaNoMeta>
+      <Author>
+         <Name> Celso R. C. Rego </Name>
+         <Email>celsorego@kit.edu</Email>
+      </Author>
+
+      <Description>
+         This python script generates the corrected POTCAR for Quasiparticle Correction by applying the DFT-1/2 methodology.
+      </Description>
+
+      <Keyword>Quasiparticle Correction</Keyword>
+  </WaNoMeta>
+
+   <WaNoRoot name="DFT-half">
+
+      <WaNoString name="Element">I</WaNoString>
+      <WaNoFile logical_filename="POTCAR" name="POTCAR-Element" description="POTCAR of the selected element">path to file1</WaNoFile>
+      <WaNoFile logical_filename="POSCAR" name="POSCAR">path to file1</WaNoFile>
+      <WaNoFloat name="Cut">2.0</WaNoFloat>
+      <WaNoFloat name="Occ" description="occupation">0.5</WaNoFloat>
+      
+
+   </WaNoRoot>
+   <WaNoExecCommand>
+      module load gnu8
+
+      export NANOVER=V4
+	   source $NANOMATCH/$NANOVER/local_anaconda/bin/activate
+	   conda activate simstack_kit
+		
+      python dft_half.py
+      python half_results.py
+   </WaNoExecCommand>
+   
+   <WaNoInputFiles> 
+      <WaNoInputFile logical_filename="dft_half.py">dft_half.py</WaNoInputFile>
+      <WaNoInputFile logical_filename="gen_half_POTCAR.py">gen_half_POTCAR.py</WaNoInputFile>
+      <WaNoInputFile logical_filename="half_results.py">half_results.py</WaNoInputFile>
+      <WaNoInputFile logical_filename="atm_cGuima.tar.xz">atm_cGuima.tar.xz</WaNoInputFile>
+      <WaNoInputFile logical_filename="elements.tar.xz">elements.tar.xz</WaNoInputFile>
+      <WaNoInputFile logical_filename="program_m05.tar.xz">program_m05.tar.xz</WaNoInputFile>
+      <WaNoInputFile logical_filename="potpaw_PBE.54.tar.xz">potpaw_PBE.54.tar.xz</WaNoInputFile> 
+   </WaNoInputFiles>
+   
+   <WaNoOutputFiles>
+      <WaNoOutputFile>POTCARcut</WaNoOutputFile>
+      <WaNoOutputFile>POTCAR_final</WaNoOutputFile>
+      <WaNoOutputFile>POSCAR</WaNoOutputFile>
+      <WaNoOutputFile>dft_half_results.yml</WaNoOutputFile>
+   </WaNoOutputFiles>
+</WaNoTemplate>
