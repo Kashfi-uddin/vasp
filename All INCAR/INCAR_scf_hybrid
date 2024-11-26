@@ -3,6 +3,7 @@ NPAR=9
 # INCAR file for HSE06 SCF calculation in VASP
 LWAVE  = .TRUE.        (Write WAVECAR or not)
 LCHARG = .TRUE.        (Write CHGCAR or not)
+LREAL = Auto
 
 # General parameters
 SYSTEM = YourSystemName
