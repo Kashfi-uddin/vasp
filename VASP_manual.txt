@@ -96,6 +96,7 @@ Step 6: Determination of the optical properties
 Input files: INCAR,POTCAR,POSCAR,KPOINTS,CHGCAR,WAVECAR from scf optimization
     • copy the required input files from scf_opt folder
 → cp INCAR POSCAR POTCAR CHGCAR WAVECAR KPOINTS ~/vasp/…../optical
+cp ../scf_hse06/POSCAR ../scf_hse06/POTCAR ../scf_hse06/WAVECAR ../scf_hse06/KPOINTS ../scf_hse06/CHGCAR ../../BaZrO3/optical/INCAR .
     • RUN
     • Get the optical properties data (71)
 
