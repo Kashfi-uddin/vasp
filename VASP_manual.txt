@@ -75,6 +75,7 @@ For hybrid calculation:
 Step 5: Determination of the mechanical properties
 
 Input files: INCAR,POSCAR,POTCAR,KPOINTS(accuracy should be good enough: 0.01) 
+cp ../../BaZrO2S/mechanical/INCAR ../../BaZrO2S/mechanical/POSCAR ../../BaZrO2S/mechanical/POTCAR ../../BaZrO2S/mechanical/VPKIT.in ../../BaZrO2S/mechanical/mecha.sh
     • Prepare VPKIT.in file and set the value of first line to 1  
 1                    ! 1 for pre-processing; 2 for post-processing
 3D                   ! 2D for two-dimentional, 3D for bulk
