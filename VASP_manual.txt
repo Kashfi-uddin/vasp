@@ -158,7 +158,11 @@ other bandplot option
 ・phonopy-bandplot --xlabel="" --ylabel="Frequency (THz)" --title="Fe2VAl" --fmin=0 --fmax=12 --dos=total_dos.dat
 ・phonopy-bandplot --xlabel="" --ylabel="Frequency (THz)" --title="Fe2VAl" --fmin=0 --fmax=12 --dos=projected_dos.dat
 
- 
+
+Work function calculation:
+make a slab with vaccum
+Do geo opt and scf. In scf Incar add --> LVHAR = .TRUE.
+vaspkit 426
 
 Thank You
 
