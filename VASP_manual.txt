@@ -163,7 +163,8 @@ Work function calculation:
 make a slab with vaccum
 Do geo opt and scf. In scf Incar add --> LVHAR = .TRUE.
 vaspkit 426
-need to calculated MSD (72)
+need to calculated MSD and diffusivity fpr ionic conductivity (72)
+
 
 Thank You
 
