@@ -107,11 +107,10 @@ Step 7: Determination of phonon calculation
 3. phonopy -d --dim="2 2 2" -c POSCAR-unitcell (warning : Don't use more than dim 2 2 2 our pc can't handle)
 4. mv SPOSCAR POSCAR
 5. create folder for each poscar and run mpirun -np 16 vasp_std
-6. phonopy --fc vasprun.xml
+6.  phonopy -f disp-*/vasprun.xml
 7. gedit band.conf
    
-   # Phonon band structure configuration
-   DIM = 2 2 2
+DIM = 1 1 1
 
   # Define the primitive axis in fractional coordinates
   PRIMITIVE_AXIS = 1.0 0.0 0.0  0.0 1.0 0.0  0.0 0.0 1.0
@@ -120,8 +119,11 @@ Step 7: Determination of phonon calculation
   # This path covers G-X-M-G-R
   BAND = 0.0 0.0 0.0  0.5 0.0 0.0  0.5 0.5 0.0  0.0 0.0 0.0  0.5 0.5 0.5
 
-  # Read pre-calculated force constants
-  FORCE_CONSTANTS = READ
+BAND_LABELS = Gamma X M Gamma
+
+BAND_POINTS = 101
+
+BAND_CONNECTION = .TRUE.
 
 8. phonopy --dim="2 2 2" -c POSCAR-unitcell band.conf
 9. phonopy-bandplot band.yaml (for data phonopy-bandplot --gnuplot band.yaml)
