@@ -106,7 +106,7 @@ Step 7: Determination of phonon calculation
 2. mv POSCAR POSCAR-unitcell
 3. phonopy -d --dim="2 2 2" -c POSCAR-unitcell (warning : Don't use more than dim 2 2 2 our pc can't handle)
 4. mv SPOSCAR POSCAR
-5. mpirun -np 16 vasp_std
+5. create folder for each poscar and run mpirun -np 16 vasp_std
 6. phonopy --fc vasprun.xml
 7. gedit band.conf
    
