@@ -126,7 +126,7 @@ BAND_POINTS = 101
 BAND_CONNECTION = .TRUE.
 
 8. phonopy --dim="2 2 2" -c POSCAR-unitcell band.conf
-9. phonopy-bandplot band.yaml (for data phonopy-bandplot --gnuplot band.yaml)
+9. phonopy-bandplot band.yaml (for data: phonopy-bandplot --gnuplot band.yaml > phonon_dispersion.dat)
 
 For DOS and Specific Heat
 1. gedit mesh.conf
