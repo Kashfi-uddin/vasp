@@ -168,6 +168,29 @@ vaspkit 426
 need to calculated MSD and diffusivity for ionic conductivity (72)
 
 
+#AIMD calculation
+grep 'T=' OSZICAR | awk 'BEGIN{print "Time_ps,Potential_Energy_eV"} {printf "%.3f,%.9f\n",$1*0.001,$7}' > AIMD_energy.csv
+
+#TDEP
+tdep_parse_output vasprun.xml --temperature 300
+# Extract force constants
+echo "Extracting force constants..."
+/home/ubuntu/tdep/build/extract_forceconstants/extract_forceconstants -rc2 3 -rc3 2
+# Link force constant files for TDEP
+ln -sf outfile.forceconstant infile.forceconstant
+ln -sf outfile.forceconstant_thirdorder infile.forceconstant_thirdorder
+# Run phonon dispersion and DOS at 300K
+echo "Running phonon calculations..."
+mpirun -np 2 /home/ubuntu/tdep/build/phonon_dispersion_relations/phonon_dispersion_relations -p
+# Ensure output folder exists
+mkdir -p ./tdep_outputs
+# Move outputs to tdep_outputs
+mv outfile.* ./tdep_outputs/
+echo "TDEP workflow finished. Outputs are in ../tdep_outputs/"
+cd ./tdep_outputs
+gnuplot outfile.dispersion_relations.gnuplot_pdf
+
+
 Thank You
 
 To Be Continued after further research ……………
