@@ -1,0 +1,24 @@
+for i in $(seq -w 001 060); do
+    mkdir -p disp-$i
+    mv POSCAR-$i disp-$i/POSCAR
+done
+
+for i in $(seq -w 001 060); do
+    cp INCAR KPOINTS POTCAR disp-$i/
+done
+
+#!/bin/bash
+
+for dir in disp-*; do
+    echo "======================================"
+    echo "Running VASP in $dir"
+    echo "======================================"
+
+    cd "$dir"
+
+    mpirun -np 36 vasp_std
+
+    cd ..
+
+    echo "$dir finished"
+done
